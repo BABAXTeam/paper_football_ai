@@ -1,18 +1,20 @@
 package org.babax.somegame;
 
-import org.babax.somegame.models.Edge;
-import org.babax.somegame.models.Field;
-import org.babax.somegame.models.Point;
-import org.babax.somegame.models.Vertex;
+import org.babax.somegame.models.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toSet;
+import static org.babax.somegame.models.Team.FIRST;
 
 public class Graph {
 
     private List<Vertex> nodes;
+    private Set<Point> goals;
+
     private Field field;
 
     public Graph(Field field) {
@@ -48,5 +50,17 @@ public class Graph {
                 .map(point -> new Edge(v, point))
                 .collect(toSet());
         return v;
+    }
+
+    public void initGoal(Team team) {
+        Gate gate = team == FIRST? field.gate1 : field.gate2;
+        goals = new HashSet<>(gate.bottom.x - gate.top.x);
+        for(int x = gate.top.x; x < gate.bottom.x; x++) {
+            Point p = new Point(x, gate.top.y);
+            goals.add(p);
+        }
+    }
+
+    public void findMove(Point from) {
     }
 }

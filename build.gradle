@@ -7,8 +7,11 @@ task wrapper(type: Wrapper) {
 }
 
 apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'idea'
 
-sourceCompatibility = 1.7
+sourceCompatibility = 1.8
+mainClassName = 'org.babax.somegame.Client'
 
 repositories {
     mavenCentral()
@@ -17,3 +20,10 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
+
+run {
+    if (project.hasProperty("appArgs")) {
+        args Eval.me(appArgs)
+    }
+}
+
