@@ -12,8 +12,7 @@ public class Engine {
     private String level;
     private Field field;
 
-    private Point myPosition;
-    private Point enemyPosition;
+    private Point position;
 
     public void init(List<String> params) {
         level = params.get(0);
@@ -23,9 +22,9 @@ public class Engine {
         int length = getInt(params.get(2));
         field.init(width, length);
 
-        myPosition = new Point();
-        myPosition.x = getInt(params.get(3));
-        myPosition.y = getInt(params.get(4));
+        position = new Point();
+        position.x = getInt(params.get(3));
+        position.y = getInt(params.get(4));
 
         field.traps = parseTraps(params);
     }
@@ -47,5 +46,15 @@ public class Engine {
 
     private static int getInt(String str) {
         return Integer.valueOf(str);
+    }
+
+    public Point findNextMove() {
+        //TODO: replace stub
+        return new Point(0, 0);
+    }
+
+    public void move(String x, String y) {
+        position.x = getInt(x);
+        position.y = getInt(y);
     }
 }
