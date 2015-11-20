@@ -73,4 +73,5 @@ public class EngineTest {
         assertEquals(engine.getPosition().x, 1);
         assertEquals(engine.getPosition().y, 2);
     }
+
 }
