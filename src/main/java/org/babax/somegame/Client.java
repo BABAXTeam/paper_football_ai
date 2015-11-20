@@ -1,8 +1,11 @@
 package org.babax.somegame;
 
+import org.babax.somegame.models.Point;
+
 import java.io.*;
 import java.net.Socket;
-import java.util.*;
+import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
@@ -116,13 +119,15 @@ public class Client {
     }
 
     private void setArgument(String[] args) {
+        engine.move(args[1], args[2]);
         System.out.println("Player moved to " + args[1] +" "+args[2]);
     }
 
     private String getNextMove() {
         System.out.print("Enter your next move as x y");
-        final int x = keyboard.nextInt();
-        final int y = keyboard.nextInt();
+        Point point = engine.findNextMove();
+        final int x = point.x;
+        final int y = point.y;
         return "" + x + " " + y;
     }
 
@@ -137,17 +142,14 @@ public class Client {
     public static void main(final String... args)
             throws IOException, InterruptedException {
 
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Client client = new Client(args[0], Integer.valueOf(args[1]));
-                    client.play();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
+        Runnable r = () -> {
+            try {
+                Client client = new Client(args[0], Integer.valueOf(args[1]));
+                client.play();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+
         };
         new Thread(r).run();
     }
