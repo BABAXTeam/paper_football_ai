@@ -11,7 +11,7 @@ public class Field {
     public Gate gate1;
     public Gate gate2;
 
-    public void init(int width, int length){
+    public void init(int width, int length) {
         this.width = width;
         this.length = length;
         matchGates(width, length);
@@ -23,7 +23,7 @@ public class Field {
         gate1.top = new Point(2 * k, 0);
         gate1.bottom = new Point(3 * k, 0);
 
-        gate2= new Gate();
+        gate2 = new Gate();
         gate2.top = new Point(2 * k, length);
         gate2.bottom = new Point(3 * k, length);
     }

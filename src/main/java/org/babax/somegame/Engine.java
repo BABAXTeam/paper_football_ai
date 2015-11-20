@@ -31,11 +31,11 @@ public class Engine {
 
     private List<Point> parseTraps(List<String> params) {
         int trapsCount = getInt(params.get(5));
-        if(trapsCount == 0)
+        if (trapsCount == 0)
             return Collections.emptyList();
 
         List<Point> traps = new ArrayList<>();
-        for(int i = 6; i < params.size(); i += 2) {
+        for (int i = 6; i < params.size(); i += 2) {
             Point trap = new Point();
             trap.x = getInt(params.get(i));
             trap.y = getInt(params.get(i + 1));

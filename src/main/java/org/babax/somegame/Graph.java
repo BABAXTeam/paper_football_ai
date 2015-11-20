@@ -17,8 +17,8 @@ public class Graph {
 
     public Graph(Field field) {
         this.field = field;
-        for(int y = 0; y < field.length; y++) {
-            for(int x = 0; x < field.width; x++) {
+        for (int y = 0; y < field.length; y++) {
+            for (int x = 0; x < field.width; x++) {
                 Vertex v = initVertex(y, x);
                 nodes.add(v);
             }
@@ -38,11 +38,13 @@ public class Graph {
                 new Point(x, y + 1),
                 new Point(x + 1, y),
                 new Point(x + 1, y + 1),
-                new Point(x + 1, y - 1))
+                new Point(x + 1, y - 1)
+        )
                 .filter(point -> point.x >= 0
-                        && point.y >= 0
-                        && point.x <= field.width
-                        && point.y <= field.length)
+                              && point.y >= 0
+                              && point.x <= field.width
+                              && point.y <= field.length
+                )
                 .map(point -> new Edge(v, point))
                 .collect(toSet());
         return v;

@@ -83,7 +83,7 @@ public class Client {
                 sendMsg(MY_NEXT_MOVE + " " + getNextMove());
                 break;
             case PLAYER_MOVED:
-                setArgument( args );
+                setArgument(args);
                 break;
             case MOVE_OK:
                 System.out.println("Good to know that I moved OK");
@@ -120,7 +120,7 @@ public class Client {
 
     private void setArgument(String[] args) {
         engine.move(args[1], args[2]);
-        System.out.println("Player moved to " + args[1] +" "+args[2]);
+        System.out.println("Player moved to " + args[1] + " " + args[2]);
     }
 
     private String getNextMove() {
@@ -132,7 +132,7 @@ public class Client {
     }
 
     protected void sendMsg(final String message) throws IOException {
-        System.out.println("send "+message);
+        System.out.println("send " + message);
         out.write(message);
         out.write("\r\n");
         out.flush();
