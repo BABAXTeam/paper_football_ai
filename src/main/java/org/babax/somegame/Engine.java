@@ -3,9 +3,7 @@ package org.babax.somegame;
 import org.babax.somegame.models.Field;
 import org.babax.somegame.models.Point;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Engine {
 
@@ -29,12 +27,12 @@ public class Engine {
         field.traps = parseTraps(params);
     }
 
-    private List<Point> parseTraps(List<String> params) {
+    private Set<Point> parseTraps(List<String> params) {
         int trapsCount = getInt(params.get(5));
         if (trapsCount == 0)
-            return Collections.emptyList();
+            return Collections.emptySet();
 
-        List<Point> traps = new ArrayList<>();
+        Set<Point> traps = new HashSet<>();
         for (int i = 6; i < params.size(); i += 2) {
             Point trap = new Point();
             trap.x = getInt(params.get(i));

@@ -46,6 +46,7 @@ public class Graph {
                               && point.y >= 0
                               && point.x <= field.width
                               && point.y <= field.length
+                              && !field.isTrap(point)
                 )
                 .map(point -> new Edge(v, point))
                 .collect(toSet());
