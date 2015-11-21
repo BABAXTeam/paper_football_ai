@@ -102,7 +102,7 @@ public class Engine {
         if(team == null)
             team = Team.SECOND;
 
-        if(field.isInField(to) || field.isInField(keeper1) || field.isInField(keeper2))
+        if(!field.isInField(to) || !field.isInField(keeper1) || !field.isInField(keeper2))
             return;
 
         if(team == Team.FIRST) {

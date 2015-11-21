@@ -181,4 +181,5 @@ public class EngineTest {
         engine.handleEnemyMove(new Point(15, 29), new Point(18, 42), new Point(14, 46));
         System.out.println(engine.findNextMove());
     }
+
 }
