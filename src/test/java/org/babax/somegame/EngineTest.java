@@ -3,10 +3,17 @@ package org.babax.somegame;
 import org.babax.somegame.models.Field;
 import org.babax.somegame.models.Point;
 import org.babax.somegame.models.Team;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.BlockJUnit4ClassRunner;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
@@ -108,6 +115,39 @@ public class EngineTest {
                 )
         );
         return engine;
+    }
+
+    @Ignore
+    @Test
+    public void testFirstGameVSSelf() throws Exception {
+        ServerEmulation emulation = new ServerEmulation();
+        emulation.run( "1 31 61 15 30" +
+                " 18 11 25 16 31 23 58 16 25" +
+                " 6 49 28 42 12 46 15" +
+                " 20 28 5 15 3 30 35" +
+                " 26 48 2 45 25 32" +
+                " 2 0 12 40 18 22 19 9");
+    }
+
+    private String readResource(String name) {
+        try {
+            File file = Paths.get("/home/dos65/projects/somegame/src/test/resources/game3").toFile();
+            return Files.lines(file.toPath())
+                    .reduce(String::concat).get().trim();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void testGame3() throws InterruptedException {
+        Thread.sleep(10000);
+        Engine engine = new Engine();
+        engine.init(Arrays.asList(readResource("game3").split(" ")));
+        System.out.println(Util.getEdgesCount(engine.graph));
+        long start = System.currentTimeMillis();
+        System.out.println(engine.findNextMove());
+        System.out.println("End:" + (System.currentTimeMillis() - start) / 1000.0);
     }
 
 }

@@ -13,12 +13,13 @@ public class Engine {
 
     private String level;
     private Field field;
-    private Graph graph;
+    public Graph graph;
     private Team team;
 
     private Point position;
 
     public void init(List<String> params) {
+        System.out.println(params);
         level = params.get(0);
 
         field = new Field();

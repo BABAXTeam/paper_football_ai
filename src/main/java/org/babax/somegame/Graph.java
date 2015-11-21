@@ -93,21 +93,26 @@ public class Graph {
 
         EdgeEntry current = initial;
         boolean finished = false;
+        int counter = 0;
         while (!finished) {
+            counter++;
+            for (Edge edge : current.adj.edges) {
+                if(edge.disabled)
+                    continue;
 
-            for (Edge edge : current.adj.getAccepted()) {
-                EdgeEntry currentEntry = bestWays.get(genKey(edge.next));
+                long key = genKey(edge.next);
+                EdgeEntry currentEntry = bestWays.get(key);
                 if (currentEntry == null) {
                     EdgeEntry entry = new EdgeEntry();
                     entry.weight = current.weight + 1;
-                    entry.adj = key2Vertex.get(genKey(edge.next));
+                    entry.adj = key2Vertex.get(key);
                     entry.parent = current;
                     bestWays.put(genKey(entry.adj), entry);
                     priorityQueue.add(entry);
                 } else if (currentEntry.weight > current.weight + 1) {
                     priorityQueue.remove(currentEntry);
                     currentEntry.weight = current.weight + 1;
-                    currentEntry.adj = key2Vertex.get(genKey(edge.next));
+                    currentEntry.adj = key2Vertex.get(key);
                     currentEntry.parent = current;
                     priorityQueue.add(currentEntry);
                 }
@@ -115,6 +120,7 @@ public class Graph {
 
             if (gate.isGoal(current.adj)) {
                 //current.printPath();
+                System.out.println(counter);
                 return current;
             }
 
