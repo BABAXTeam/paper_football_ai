@@ -2,11 +2,11 @@ package org.babax.somegame;
 
 import org.babax.somegame.models.Field;
 
-public class Strategy {
+public class KeeperStrategy {
 
     private Field field;
 
-    public Strategy(Field field) {
+    public KeeperStrategy(Field field) {
         this.field = field;
     }
 }

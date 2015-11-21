@@ -45,12 +45,12 @@ public class Engine {
         keeper1_2.y = getInt(params.get(trapsShift + 3));
 
         keeper2_1 = new Point();
-        keeper2_1.x = getInt(params.get(trapsShift));
-        keeper2_1.y = getInt(params.get(trapsShift + 1));
+        keeper2_1.x = getInt(params.get(trapsShift + 4));
+        keeper2_1.y = getInt(params.get(trapsShift + 5));
 
         keeper2_2 = new Point();
-        keeper2_2.x = getInt(params.get(trapsShift + 2));
-        keeper2_2.y = getInt(params.get(trapsShift + 3));
+        keeper2_2.x = getInt(params.get(trapsShift + 6));
+        keeper2_2.y = getInt(params.get(trapsShift + 7));
 
         graph = new Graph(field);
         if(width >= 500 && length >= 800) {
