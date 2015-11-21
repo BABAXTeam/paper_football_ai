@@ -51,6 +51,8 @@ public class Graph {
                 // не ходим по границам
                 && !((x == point.x && field.isBorder(v) && field.isBorder(point))
                       || (y == point.y && field.isBorder(v) && field.isBorder(point)))
+                // середина поля
+                && !(y == field.length/2 && point.y == y)
                 && !field.isTrap(point))
                 .map(point -> new Edge(v, point))
                 .collect(toSet());
@@ -107,7 +109,7 @@ public class Graph {
             }
 
             if (gate.isGoal(current.adj)) {
-                current.printPath();
+                //current.printPath();
                 return current;
             }
 

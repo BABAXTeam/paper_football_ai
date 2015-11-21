@@ -68,7 +68,6 @@ public class EngineTest {
                 "0", "0",
                 "0"
         ));
-        System.out.println(engine.getField());
         Point nextMove = engine.findNextMove();
         assertEquals(1, nextMove.x);
         assertEquals(1, nextMove.y);

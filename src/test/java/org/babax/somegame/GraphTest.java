@@ -36,7 +36,7 @@ public class GraphTest {
         Field f = Fixture.getField(2, 2);
         Graph g = new Graph(f);
         int count = getEdgesCount(g);
-        assertEquals(24, count);
+        assertEquals(20, count);
     }
 
     private int getEdgesCount(Graph g) {
