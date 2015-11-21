@@ -4,6 +4,7 @@ import org.babax.somegame.models.Point;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Stream;
@@ -76,9 +77,9 @@ public class Client {
 
         switch (args[0]) {
             case START_GAME:
-                System.out.println("Start the game");
-                engine.init(params);
+                System.out.println("Start the game:" + new Date());
                 sendMsg(CONFIRM_START_GAME);
+                engine.init(params);
                 break;
             case YOU_MOVE:
                 sendMsg(MY_NEXT_MOVE + " " + getNextMove());

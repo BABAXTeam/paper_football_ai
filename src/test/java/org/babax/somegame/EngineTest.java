@@ -10,6 +10,7 @@ import org.junit.runners.BlockJUnit4ClassRunner;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
@@ -23,7 +24,7 @@ public class EngineTest {
         Engine engine = new Engine();
         engine.init(Arrays.asList(
                 "L1",
-                "30", "60",
+                "31", "61",
                 "1", "1",
                 "0"
         ));
@@ -80,6 +81,16 @@ public class EngineTest {
         assertEquals(1, engine.getPosition().x);
         assertEquals(2, engine.getPosition().y);
         assertEquals(Team.SECOND, engine.getTeam());
+    }
+
+    @Test
+    public void testFindMove() {
+        Engine engine = Fixture.dummyEngine();
+        Point initial = new Point(0, 0);
+        engine.setPosition(initial);
+        Point p = engine.findNextMove();
+        assertNotEquals(p, initial);
+        assertEquals(p, engine.getPosition());
     }
 
 }

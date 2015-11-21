@@ -22,8 +22,8 @@ public class Engine {
         level = params.get(0);
 
         field = new Field();
-        int width = getInt(params.get(1));
-        int length = getInt(params.get(2));
+        int width = getInt(params.get(1)) - 1;
+        int length = getInt(params.get(2)) - 1;
         field.init(width, length);
 
         position = new Point();
@@ -77,7 +77,7 @@ public class Engine {
     public void handleEnemyMove(Point to) {
         if(team == null)
             team = Team.SECOND;
-        graph.markDisabled(position, to);
+        graph.markDisabledEdges(position, to);
         position = to;
     }
 
@@ -89,8 +89,11 @@ public class Engine {
         if(team == null)
             team = Team.FIRST;
         Point result = graph.findMove(position, getGate()).getFirst();
-        if(result != Point.NONE)
-            graph.markDisabled(position, result);
+        if(result != Point.NONE) {
+            graph.markDisabledEdges(position, result);
+            position = result;
+        }
+
         return result;
     }
 

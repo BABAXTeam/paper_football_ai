@@ -23,8 +23,8 @@ public class EdgeEntry implements Comparable<EdgeEntry> {
 
     public void printPath() {
         EdgeEntry curr = this;
+        System.out.println("Path:");
         while(curr != null) {
-            System.out.println("Path:");
             System.out.println("     " + curr.adj);
             curr = curr.parent;
         }

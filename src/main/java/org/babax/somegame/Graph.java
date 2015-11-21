@@ -59,7 +59,11 @@ public class Graph {
         return v;
     }
 
-    public boolean markDisabled(Point adj, Point next) {
+    public boolean markDisabledEdges(Point adj, Point next) {
+        return markDisabled(adj, next) && markDisabled(next, adj);
+    }
+
+    private boolean markDisabled(Point adj, Point next) {
         Vertex v = key2Vertex.get(genKey(adj));
         if(v == null)
             throw new IllegalStateException();
@@ -72,6 +76,7 @@ public class Graph {
             }
         }
         return false;
+
     }
 
     public EdgeEntry findMove(Point from, Gate gate) {
@@ -129,6 +134,10 @@ public class Graph {
 
     private long genKey(int x, int y) {
         return (long) x << 32 | y & 0xFFFFFFFFL;
+    }
+
+    protected Vertex getVertex(int x, int y) {
+        return key2Vertex.get(genKey(x, y));
     }
 
 }
