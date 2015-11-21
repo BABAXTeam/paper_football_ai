@@ -59,6 +59,7 @@ public class Engine {
         if(width >= 500 && length >= 800) {
             graph.enable();
         }
+        graph.markVisited(position);
     }
 
     private Set<Point> parseTraps(List<String> params) {

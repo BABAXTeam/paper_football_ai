@@ -15,7 +15,7 @@ public class Graph {
 
     public Field field;
 
-    private static int MAX_ITER = 10000;
+    private static int MAX_ITER = 30000;
     private boolean enabled = false;
 
     public Graph(Field field) {
@@ -82,6 +82,7 @@ public class Graph {
     }
 
     public boolean trackMove(Point adj, Point next) {
+        markVisited(next);
         return markDisabled(adj, next) && markDisabled(next, adj);
     }
 
@@ -112,8 +113,6 @@ public class Graph {
     }
 
     public EdgeEntry findMove(Point from, Gate gate, List<Point> keepers) {
-        Random random = new Random(978654);
-
         Set<Long> keepersKeys = prepareKeepers(keepers);
 
         Vertex fromV = key2Vertex.get(genKey(from));
@@ -153,8 +152,9 @@ public class Graph {
 
                 EdgeEntry currentEntry = bestWays.get(key);
                 int tmpWeight = edge.weight;
-                if(visited.contains(edge.next))
+                if(visited.contains(genKey(edge.next)))
                     tmpWeight = 0;
+
                 int edgeWeightNew = current.weight + tmpWeight;
 
                 if (currentEntry == null) {
@@ -170,7 +170,7 @@ public class Graph {
                     currentEntry.adj = key2Vertex.get(key);
                     currentEntry.parent = current;
                     priorityQueue.add(currentEntry);
-                } else if (currentEntry.weight == edgeWeightNew && random.nextBoolean()) {
+                } else if (currentEntry.weight == edgeWeightNew) {
                     priorityQueue.remove(currentEntry);
                     currentEntry.weight = edgeWeightNew;
                     currentEntry.adj = key2Vertex.get(key);
