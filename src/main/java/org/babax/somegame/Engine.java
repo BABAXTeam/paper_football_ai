@@ -19,7 +19,6 @@ public class Engine {
     private Point position;
 
     public void init(List<String> params) {
-        System.out.println(params);
         level = params.get(0);
 
         field = new Field();

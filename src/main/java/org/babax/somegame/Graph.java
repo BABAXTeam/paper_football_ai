@@ -13,6 +13,8 @@ public class Graph {
 
     public Field field;
 
+    private static int MAX_ITER = 10000 * 3;
+
     public Graph(Field field) {
         this.field = field;
         initNodes();
@@ -94,8 +96,19 @@ public class Graph {
         EdgeEntry current = initial;
         boolean finished = false;
         int counter = 0;
+
+        EdgeEntry maybeBest = initial;
+        int minimalLenght = Integer.MAX_VALUE;
+
         while (!finished) {
             counter++;
+
+            int tmpMinLength = lengthDistance(gate, current.adj);
+            if(tmpMinLength < minimalLenght) {
+                minimalLenght = tmpMinLength;
+                maybeBest = current;
+            }
+
             for (Edge edge : current.adj.edges) {
                 if(edge.disabled)
                     continue;
@@ -120,8 +133,12 @@ public class Graph {
 
             if (gate.isGoal(current.adj)) {
                 //current.printPath();
-                System.out.println(counter);
+                //System.out.println(counter);
                 return current;
+            }
+
+            if(counter >= MAX_ITER) {
+                return maybeBest;
             }
 
             current = priorityQueue.poll();
@@ -132,6 +149,12 @@ public class Graph {
         }
 
         return EdgeEntry.EMPTY;
+    }
+
+    private int lengthDistance(Gate gate, Vertex v) {
+        if(gate.top.y == 0)
+            return v.y;
+        return gate.top.y -v.y;
     }
 
     private long genKey(Point p) {
