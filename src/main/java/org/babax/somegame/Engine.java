@@ -100,6 +100,7 @@ public class Engine {
     public void handleEnemyMove(Point to, Point keeper1_1, Point keeper1_2, Point keeper2_1, Point keeper2_2) {
         if(team == null)
             team = Team.SECOND;
+
         this.keeper1_1 = keeper1_1;
         this.keeper1_2 = keeper1_2;
         this.keeper2_1 = keeper2_1;

@@ -123,6 +123,11 @@ public class Client {
     }
 
     private void setArgument(String[] args) {
+        if(args == null || args.length < 10){
+            System.out.println("ILLEGAL HADNLE MOVE: " + args);
+            System.out.println("Maybe we win? ^_^");
+            return;
+        }
         Point move = new Point(getInt(args[1]), getInt(args[2]));
         Point keeper1_1 = new Point(getInt(args[3]), getInt(args[4]));
         Point keeper1_2 = new Point(getInt(args[5]), getInt(args[6]));
