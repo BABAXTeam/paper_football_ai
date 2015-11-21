@@ -6,6 +6,8 @@ import static java.util.stream.Collectors.toSet;
 
 public class Vertex extends Point {
 
+    public static Vertex NONE = new Vertex();
+
     public Set<Edge> edges;
 
     public Set<Edge> getAccepted() {

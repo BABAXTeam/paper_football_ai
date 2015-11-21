@@ -6,6 +6,9 @@ import org.babax.somegame.models.Team;
 import org.babax.somegame.models.Vertex;
 import org.junit.Test;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.junit.Assert.*;
 
 /**
@@ -21,15 +24,31 @@ public class GraphTest {
     }
 
     @Test
+    public void testGraphInitWithTraps() throws Exception {
+        Field f = Fixture.getField(2, 2);
+        Set<Point> traps = new HashSet<>();
+        traps.add(new Point(1, 1));
+        f.traps = traps;
+        Graph g = new Graph(f);
+        assertEquals((f.length+1) * (f.width+1) - 1 , g.key2Vertex.size());
+        assertEquals(8, getEdgesCount(g));
+    }
+
+    @Test
     public void testEdges() throws Exception {
         Field f = Fixture.getField(2, 2);
         Graph g = new Graph(f);
+        int count = getEdgesCount(g);
+        assertEquals(24, count);
+    }
+
+    private int getEdgesCount(Graph g) {
         int count = 0;
         for(Vertex v : g.key2Vertex.values()) {
             count += v.getAccepted().size();
             v.getAccepted().forEach(System.out::println);
         }
-        assertEquals(24, count);
+        return count;
     }
 
     @Test

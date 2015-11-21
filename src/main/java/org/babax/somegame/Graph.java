@@ -5,6 +5,7 @@ import org.babax.somegame.models.*;
 import java.util.*;
 import java.util.stream.Stream;
 
+import static java.util.stream.Collectors.partitioningBy;
 import static java.util.stream.Collectors.toSet;
 
 public class Graph {
@@ -24,7 +25,8 @@ public class Graph {
         for (int y = 0; y <= field.length; y++) {
             for (int x = 0; x <= field.width; x++) {
                 Vertex v = initVertex(x, y);
-                key2Vertex.put(genKey(x, y), v);
+                if(v != Vertex.NONE)
+                    key2Vertex.put(genKey(x, y), v);
             }
         }
     }
@@ -33,6 +35,9 @@ public class Graph {
         Vertex v = new Vertex();
         v.x = x;
         v.y = y;
+
+        if(field.isTrap(v))
+            return Vertex.NONE;
 
         v.edges = Stream.of(
                 new Point(x - 1, y),
@@ -46,7 +51,8 @@ public class Graph {
         ).filter(point -> field.isInField(point)
                 // не ходим по границам
                 && !((x == point.x && field.isBorder(v) && field.isBorder(point))
-                      || (y == point.y && field.isBorder(v) && field.isBorder(point))))
+                      || (y == point.y && field.isBorder(v) && field.isBorder(point)))
+                && !field.isTrap(point))
                 .map(point -> new Edge(v, point))
                 .collect(toSet());
         return v;
