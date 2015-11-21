@@ -52,11 +52,16 @@ public class Graph {
         ).filter(point -> field.isInField(point)
                 // не ходим по границам
                 && !((x == point.x && field.isBorder(v) && field.isBorder(point))
-                      || (y == point.y && field.isBorder(v) && field.isBorder(point)))
+                || (y == point.y && field.isBorder(v) && field.isBorder(point)))
                 // середина поля
-                && !(y == field.length/2 && point.y == y)
+                && !(y == field.length / 2 && point.y == y)
                 && !field.isTrap(point))
-                .map(point -> new Edge(v, point))
+                .map(point -> {
+                    Edge edge = new Edge(v, point);
+                    if(!field.isBorder(v) && field.isBorder(point))
+                        edge.weight = 0;
+                    return edge;
+                })
                 .collect(toSet());
         return v;
     }
@@ -115,16 +120,17 @@ public class Graph {
 
                 long key = genKey(edge.next);
                 EdgeEntry currentEntry = bestWays.get(key);
+                int edgeWeightNew = current.weight + edge.weight;
                 if (currentEntry == null) {
                     EdgeEntry entry = new EdgeEntry();
-                    entry.weight = current.weight + 1;
+                    entry.weight = edgeWeightNew;
                     entry.adj = key2Vertex.get(key);
                     entry.parent = current;
                     bestWays.put(genKey(entry.adj), entry);
                     priorityQueue.add(entry);
-                } else if (currentEntry.weight > current.weight + 1) {
+                } else if (currentEntry.weight > edgeWeightNew) {
                     priorityQueue.remove(currentEntry);
-                    currentEntry.weight = current.weight + 1;
+                    currentEntry.weight = edgeWeightNew;
                     currentEntry.adj = key2Vertex.get(key);
                     currentEntry.parent = current;
                     priorityQueue.add(currentEntry);

@@ -10,15 +10,11 @@ import org.junit.runners.BlockJUnit4ClassRunner;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 /**
  * Created by blvp on 21.11.15.
@@ -131,7 +127,7 @@ public class EngineTest {
 
     private String readResource(String name) {
         try {
-            File file = Paths.get("/home/dos65/projects/somegame/src/test/resources/game3").toFile();
+            File file = Paths.get("/home/blvp/global/somegame/src/test/resources/game3").toFile();
             return Files.lines(file.toPath())
                     .reduce(String::concat).get().trim();
         } catch (IOException e) {

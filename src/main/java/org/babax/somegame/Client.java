@@ -153,6 +153,6 @@ public class Client {
             }
 
         };
-        new Thread(r).run();
+        new Thread(r).start();
     }
 }
