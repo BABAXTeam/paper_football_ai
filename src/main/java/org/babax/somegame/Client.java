@@ -35,6 +35,8 @@ public class Client {
     public static final String CONFIRM_GAME_OVER = "gameOverConfirm";
     public static final String SHUTDOWN = "shutdown";
 
+    static String teamName = "BABAX";
+
 
     public Client(final String address, final int port) throws IOException {
         this.address = address;
@@ -63,7 +65,7 @@ public class Client {
 
     public String getTeamName() {
         System.out.print("Enter your Team Name:");
-        return "BABAX";
+        return teamName;
     }
 
     protected boolean handleGameStatus(final String nextMessage)
@@ -151,6 +153,8 @@ public class Client {
 
         Runnable r = () -> {
             try {
+                if(args.length > 2 && args[2] != null)
+                    teamName = args[2];
                 Client client = new Client(args[0], Integer.valueOf(args[1]));
                 client.play();
             } catch (IOException e) {
