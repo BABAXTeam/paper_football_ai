@@ -11,15 +11,21 @@ import java.util.Collections;
 public class Fixture {
 
     public static Field dummyField(){
-        Field field = new Field();
-        field.init(30, 60);
-        field.traps = Collections.emptySet();
-        return field;
+        return getField(30, 60);
     }
 
     public static Field mini5x10Field() {
+        return getField(5, 10);
+    }
+
+    public static Field mini5x4Field() {
+        return getField(5, 4);
+    }
+
+
+    public static Field getField(int width, int length) {
         Field field = new Field();
-        field.init(5, 10);
+        field.init(width, length);
         field.traps = Collections.emptySet();
         return field;
     }

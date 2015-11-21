@@ -3,6 +3,14 @@ package org.babax.somegame.models;
 public class Gate {
     public Point top, bottom;
 
+    public boolean isGoal(Point point) {
+        return isGoal(point.x, point.y);
+    }
+
+    public boolean isGoal(int x, int y) {
+        return x >= top.x && x <= bottom.x && y == top.y;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -20,5 +28,13 @@ public class Gate {
         int result = top != null ? top.hashCode() : 0;
         result = 31 * result + (bottom != null ? bottom.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Gate{" +
+                "top=" + top +
+                ", bottom=" + bottom +
+                '}';
     }
 }

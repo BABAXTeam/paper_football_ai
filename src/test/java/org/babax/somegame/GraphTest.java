@@ -1,7 +1,9 @@
 package org.babax.somegame;
 
 import org.babax.somegame.models.Field;
+import org.babax.somegame.models.Point;
 import org.babax.somegame.models.Team;
+import org.babax.somegame.models.Vertex;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -12,26 +14,30 @@ import static org.junit.Assert.*;
 public class GraphTest {
 
     @Test
-    public void testSimpleGraph() throws Exception {
-        Field f = Fixture.dummyField();
+    public void testVertexCount() throws Exception {
+        Field f = Fixture.getField(2, 2);
         Graph g = new Graph(f);
-        assertEquals(g.key2Vertex.size(), f.length * f.width);
+        assertEquals((f.length+1) * (f.width+1), g.key2Vertex.size());
     }
 
     @Test
-    public void testSetGoalsSimpe() {
-        Field f = Fixture.mini5x10Field();
+    public void testEdges() throws Exception {
+        Field f = Fixture.getField(2, 2);
         Graph g = new Graph(f);
-        g.initGoal(Team.FIRST);
-        assertEquals(1, g.goals.size());
-        assertEquals(2, g.goals.iterator().next().getX());
+        int count = 0;
+        for(Vertex v : g.key2Vertex.values()) {
+            count += v.getAccepted().size();
+            v.getAccepted().forEach(System.out::println);
+        }
+        assertEquals(24, count);
     }
 
     @Test
-    public void testSetGoals() {
-        Field f = Fixture.dummyField();
+    public void testFindSome() throws Exception {
+        Field f = Fixture.getField(5, 4);
         Graph g = new Graph(f);
-        g.initGoal(Team.FIRST);
-        assertEquals(6, g.goals.size());
+        System.out.println(f.gate2);
+        boolean result = g.findMove(new Point(0, 0), f.gate2);
+        assertTrue(result);
     }
 }

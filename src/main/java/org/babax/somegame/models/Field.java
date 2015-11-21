@@ -32,6 +32,18 @@ public class Field {
         return traps.contains(p);
     }
 
+    public boolean isBorder(Point p) {
+        return isBorder(p.x, p.y);
+    }
+
+    public boolean isInField(Point p) {
+        return p.x >= 0 && p.x <= width && p.y >=0 && p.y <= length;
+    }
+
+    public boolean isBorder(int x, int y) {
+        return width == x || length == y || x == 0 || y == 0;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
