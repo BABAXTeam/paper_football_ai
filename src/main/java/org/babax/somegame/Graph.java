@@ -15,11 +15,17 @@ public class Graph {
 
     public Field field;
 
-    private static int MAX_ITER = 10000 * 3;
+    private static int MAX_ITER = 10000;
+    private boolean enabled = false;
 
     public Graph(Field field) {
         this.field = field;
         initNodes();
+    }
+
+    public void enable() {
+//        System.out.println("enabled");
+        this.enabled = true;
     }
 
     private void initNodes() {
@@ -51,7 +57,7 @@ public class Graph {
                 new Point(x + 1, y),
                 new Point(x + 1, y + 1),
                 new Point(x + 1, y - 1)
-        ).parallel()
+        )
                 .filter(point -> field.isInField(point)
                         // не ходим по границам
                         && !((x == point.x && field.isBorder(v) && field.isBorder(point))
@@ -148,7 +154,8 @@ public class Graph {
                 return current;
             }
 
-            if (counter >= MAX_ITER) {
+            if (enabled && counter >= MAX_ITER) {
+//                System.out.println("max");
                 return maybeBest;
             }
 

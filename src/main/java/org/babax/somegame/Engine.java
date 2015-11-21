@@ -33,6 +33,9 @@ public class Engine {
         field.traps = parseTraps(params);
 
         graph = new Graph(field);
+        if(width >= 500 && length >= 800) {
+            graph.enable();
+        }
     }
 
     private Set<Point> parseTraps(List<String> params) {

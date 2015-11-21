@@ -137,13 +137,16 @@ public class EngineTest {
 
     @Test
     public void testGame3() throws InterruptedException {
-        Thread.sleep(10000);
         Engine engine = new Engine();
+        long start1 = System.currentTimeMillis();
         engine.init(Arrays.asList(readResource("game3").split(" ")));
+        System.out.println("init: "+ (System.currentTimeMillis() - start1));
         System.out.println(Util.getEdgesCount(engine.graph));
-        long start = System.currentTimeMillis();
-        System.out.println(engine.findNextMove());
-        System.out.println("End:" + (System.currentTimeMillis() - start) / 1000.0);
+        for (int i = 0; i < 10; i++) {
+            long start = System.currentTimeMillis();
+            System.out.println(engine.findNextMove());
+            System.out.println("End:" + (System.currentTimeMillis() - start) / 1000.0);
+        }
     }
 
 }
