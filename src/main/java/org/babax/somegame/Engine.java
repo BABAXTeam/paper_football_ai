@@ -1,9 +1,6 @@
 package org.babax.somegame;
 
-import org.babax.somegame.models.Field;
-import org.babax.somegame.models.Gate;
-import org.babax.somegame.models.Point;
-import org.babax.somegame.models.Team;
+import org.babax.somegame.models.*;
 
 import java.util.*;
 
@@ -127,13 +124,16 @@ public class Engine {
         if(team == null)
             team = Team.FIRST;
         List<Point> keepers = Arrays.asList(keeper1_1, keeper1_2, keeper2_1, keeper2_2);
-        Point result = graph.findMove(position, getGate(), keepers).getFirst();
-        if(result != Point.NONE) {
-            graph.trackMove(position, result);
-            position = result;
+        EdgeEntry move = graph.findMove(position, getGate(), keepers);
+        if(move != EdgeEntry.EMPTY) {
+            Point result = move.getFirst();
+            if(result != Point.NONE) {
+                graph.trackMove(position, result);
+                position = result;
+            }
+            return result;
         }
-
-        return result;
+        return Point.NONE;
     }
 
     private Gate getGate() {
