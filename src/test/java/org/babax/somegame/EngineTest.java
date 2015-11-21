@@ -43,7 +43,7 @@ public class EngineTest {
     }
 
     @Test
-    public void testEngineInitWithTraps(){
+    public void testEngineInitWithTraps() {
 
         Engine engine = new Engine();
         engine.init(Arrays.asList(
@@ -91,6 +91,23 @@ public class EngineTest {
         Point p = engine.findNextMove();
         assertNotEquals(p, initial);
         assertEquals(p, engine.getPosition());
+    }
+
+    private Engine getFirstGameEngine() {
+        Engine engine = new Engine();
+        engine.init(
+                Arrays.asList(
+                        (
+                                "1 31 61 15 30" +
+                                        " 18 11 25 16 31 23 58 16 25" +
+                                        " 6 49 28 42 12 46 15" +
+                                        " 20 28 5 15 3 30 35" +
+                                        " 26 48 2 45 25 32" +
+                                        " 2 0 12 40 18 22 19 9"
+                        ).split(" ")
+                )
+        );
+        return engine;
     }
 
 }
