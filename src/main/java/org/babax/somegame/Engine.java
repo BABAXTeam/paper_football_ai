@@ -97,14 +97,18 @@ public class Engine {
         this.position = position;
     }
 
-    public void handleEnemyMove(Point to, Point keeper1_1, Point keeper1_2, Point keeper2_1, Point keeper2_2) {
+    public void handleEnemyMove(Point to, Point keeper1, Point keeper2) {
         if(team == null)
             team = Team.SECOND;
 
-        this.keeper1_1 = keeper1_1;
-        this.keeper1_2 = keeper1_2;
-        this.keeper2_1 = keeper2_1;
-        this.keeper2_2 = keeper2_2;
+        if(team == Team.FIRST) {
+            this.keeper2_1 = keeper1;
+            this.keeper2_2 = keeper2;
+        } else {
+            this.keeper1_1 = keeper1;
+            this.keeper1_2 = keeper2;
+
+        }
         graph.trackMove(position, to);
         position = to;
     }

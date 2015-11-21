@@ -4,6 +4,7 @@ import org.babax.somegame.models.Point;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -123,17 +124,15 @@ public class Client {
     }
 
     private void setArgument(String[] args) {
-        if(args == null || args.length < 10){
-            System.out.println("ILLEGAL HADNLE MOVE: " + args);
+        if(args == null || args.length < 6){
+            System.out.println("ILLEGAL HADNLE MOVE: " + Arrays.toString(args));
             System.out.println("Maybe we win? ^_^");
             return;
         }
         Point move = new Point(getInt(args[1]), getInt(args[2]));
         Point keeper1_1 = new Point(getInt(args[3]), getInt(args[4]));
         Point keeper1_2 = new Point(getInt(args[5]), getInt(args[6]));
-        Point keeper2_1 = new Point(getInt(args[7]), getInt(args[8]));
-        Point keeper2_2 = new Point(getInt(args[9]), getInt(args[10]));
-        engine.handleEnemyMove(move, keeper1_1, keeper1_2, keeper2_1, keeper2_2);
+        engine.handleEnemyMove(move, keeper1_1, keeper1_2);
         System.out.println("Player moved to " + args[1] + " " + args[2]);
     }
 
