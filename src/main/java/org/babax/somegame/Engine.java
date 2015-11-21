@@ -32,7 +32,7 @@ public class Engine {
         position.x = getInt(params.get(3));
         position.y = getInt(params.get(4));
 
-        int trapsCount = getInt(params.get(5));
+        int trapsCount = getInt(params.get(5)) * 2;
         field.traps = parseTraps(params);
 
         int trapsShift = 5 + trapsCount + 1;
@@ -52,6 +52,9 @@ public class Engine {
         keeper2_2.x = getInt(params.get(trapsShift + 6));
         keeper2_2.y = getInt(params.get(trapsShift + 7));
 
+        if(params.size() > trapsShift + 7) {
+            System.out.println("WTF SASAI:" + params.size() + " " + trapsShift + 7);
+        }
         graph = new Graph(field);
         if(width >= 500 && length >= 800) {
             graph.enable();
