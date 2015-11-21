@@ -18,6 +18,8 @@ public class Engine {
 
     private Point position;
 
+    private Point keeper1_1, keeper1_2, keeper2_1, keeper2_2;
+
     public void init(List<String> params) {
         level = params.get(0);
 
@@ -30,7 +32,25 @@ public class Engine {
         position.x = getInt(params.get(3));
         position.y = getInt(params.get(4));
 
+        int trapsCount = getInt(params.get(5));
         field.traps = parseTraps(params);
+
+        int trapsShift = 5 + trapsCount + 1;
+        keeper1_1 = new Point();
+        keeper1_1.x = getInt(params.get(trapsShift));
+        keeper1_1.y = getInt(params.get(trapsShift + 1));
+
+        keeper1_2 = new Point();
+        keeper1_2.x = getInt(params.get(trapsShift + 2));
+        keeper1_2.y = getInt(params.get(trapsShift + 3));
+
+        keeper2_1 = new Point();
+        keeper2_1.x = getInt(params.get(trapsShift));
+        keeper2_1.y = getInt(params.get(trapsShift + 1));
+
+        keeper2_2 = new Point();
+        keeper2_2.x = getInt(params.get(trapsShift + 2));
+        keeper2_2.y = getInt(params.get(trapsShift + 3));
 
         graph = new Graph(field);
         if(width >= 500 && length >= 800) {
@@ -77,10 +97,14 @@ public class Engine {
         this.position = position;
     }
 
-    public void handleEnemyMove(Point to) {
+    public void handleEnemyMove(Point to, Point keeper1_1, Point keeper1_2, Point keeper2_1, Point keeper2_2) {
         if(team == null)
             team = Team.SECOND;
-        graph.markDisabledEdges(position, to);
+        this.keeper1_1 = keeper1_1;
+        this.keeper1_2 = keeper1_2;
+        this.keeper2_1 = keeper2_1;
+        this.keeper2_2 = keeper2_2;
+        graph.trackMove(position, to);
         position = to;
     }
 
@@ -91,9 +115,10 @@ public class Engine {
     public Point findNextMove() {
         if(team == null)
             team = Team.FIRST;
-        Point result = graph.findMove(position, getGate()).getFirst();
+        List<Point> keepers = Arrays.asList(keeper1_1, keeper1_2, keeper2_1, keeper2_2);
+        Point result = graph.findMove(position, getGate(), keepers).getFirst();
         if(result != Point.NONE) {
-            graph.markDisabledEdges(position, result);
+            graph.trackMove(position, result);
             position = result;
         }
 

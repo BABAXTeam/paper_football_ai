@@ -10,6 +10,8 @@ import org.junit.runners.BlockJUnit4ClassRunner;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -29,7 +31,11 @@ public class EngineTest {
                 "L1",
                 "31", "61",
                 "1", "1",
-                "0"
+                "0",
+                "0", "0",
+                "0", "0",
+                "0", "0",
+                "0", "0"
         ));
         assertEquals(engine.getLevel(), "L1");
         Field dummyField = Fixture.dummyField();
@@ -54,6 +60,10 @@ public class EngineTest {
                 "30", "60",
                 "1", "1",
                 "1",
+                "3", "3",
+                "3", "3",
+                "3", "3",
+                "3", "3",
                 "3", "3"
         ));
 
@@ -70,21 +80,25 @@ public class EngineTest {
                 "L1",
                 "5", "4",
                 "0", "0",
-                "0"
+                "0",
+                "0", "0",
+                "0", "0",
+                "0", "0",
+                "0", "0"
         ));
         Point nextMove = engine.findNextMove();
         assertEquals(1, nextMove.x);
         assertEquals(1, nextMove.y);
     }
 
-    @Test
+/*    @Test
     public void testEnemyMove() throws Exception {
         Engine engine = Fixture.dummyEngine();
-        engine.handleEnemyMove(new Point(1, 2));
+        engine.handleEnemyMove(new Point(1, 2), new Point());
         assertEquals(1, engine.getPosition().x);
         assertEquals(2, engine.getPosition().y);
         assertEquals(Team.SECOND, engine.getTeam());
-    }
+    }*/
 
     @Test
     public void testFindMove() {
@@ -106,11 +120,18 @@ public class EngineTest {
                                         " 6 49 28 42 12 46 15" +
                                         " 20 28 5 15 3 30 35" +
                                         " 26 48 2 45 25 32" +
-                                        " 2 0 12 40 18 22 19 9"
+                                        " 2 0 12 40 18 22 19 9" +
+                                        " 1 1 2 2 3 3 4 4" +
+                                        " 5 5 6 6 7 7 8 8"
                         ).split(" ")
                 )
         );
         return engine;
+    }
+
+    @Test
+    public void testGame1() {
+        Engine engine = getFirstGameEngine();
     }
 
     @Ignore
@@ -122,12 +143,13 @@ public class EngineTest {
                 " 6 49 28 42 12 46 15" +
                 " 20 28 5 15 3 30 35" +
                 " 26 48 2 45 25 32" +
-                " 2 0 12 40 18 22 19 9");
+                " 2 0 12 40 18 22 19 9" +
+                "1 1 2 2 3 3 4 4");
     }
 
     private String readResource(String name) {
         try {
-            File file = Paths.get("/home/blvp/global/somegame/src/test/resources/game3").toFile();
+            File file = new File(getClass().getClassLoader().getResource("game3").getFile());
             return Files.lines(file.toPath())
                     .reduce(String::concat).get().trim();
         } catch (IOException e) {
@@ -141,7 +163,7 @@ public class EngineTest {
         long start1 = System.currentTimeMillis();
         engine.init(Arrays.asList(readResource("game3").split(" ")));
         System.out.println("init: "+ (System.currentTimeMillis() - start1));
-        System.out.println(Util.getEdgesCount(engine.graph));
+        //System.out.println(Util.getEdgesCount(engine.graph));
         for (int i = 0; i < 10; i++) {
             long start = System.currentTimeMillis();
             System.out.println(engine.findNextMove());

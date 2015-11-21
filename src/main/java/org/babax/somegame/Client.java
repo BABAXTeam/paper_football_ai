@@ -78,8 +78,8 @@ public class Client {
         switch (args[0]) {
             case START_GAME:
                 System.out.println("Start the game:" + new Date());
-                sendMsg(CONFIRM_START_GAME);
                 engine.init(params);
+                sendMsg(CONFIRM_START_GAME);
                 break;
             case YOU_MOVE:
                 sendMsg(MY_NEXT_MOVE + " " + getNextMove());
@@ -121,7 +121,12 @@ public class Client {
     }
 
     private void setArgument(String[] args) {
-        engine.handleEnemyMove(new Point(getInt(args[1]), getInt(args[2])));
+        Point move = new Point(getInt(args[1]), getInt(args[2]));
+        Point keeper1_1 = new Point(getInt(args[3]), getInt(args[4]));
+        Point keeper1_2 = new Point(getInt(args[5]), getInt(args[6]));
+        Point keeper2_1 = new Point(getInt(args[7]), getInt(args[8]));
+        Point keeper2_2 = new Point(getInt(args[9]), getInt(args[10]));
+        engine.handleEnemyMove(move, keeper1_1, keeper1_2, keeper2_1, keeper2_2);
         System.out.println("Player moved to " + args[1] + " " + args[2]);
     }
 

@@ -2,9 +2,8 @@ package org.babax.somegame;
 
 import org.babax.somegame.models.*;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.PriorityQueue;
+import java.util.*;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toSet;
@@ -12,6 +11,8 @@ import static java.util.stream.Collectors.toSet;
 public class Graph {
 
     public Map<Long, Vertex> key2Vertex;
+
+    public Set<Long> visited;
 
     public Field field;
 
@@ -24,13 +25,14 @@ public class Graph {
     }
 
     public void enable() {
-//        System.out.println("enabled");
         this.enabled = true;
     }
 
     private void initNodes() {
         int capacity = field.width * field.length;
         key2Vertex = new HashMap<>(capacity);
+        visited = new HashSet<>(capacity);
+
         for (int y = 0; y <= field.length; y++) {
             for (int x = 0; x <= field.width; x++) {
                 Vertex v = initVertex(x, y);
@@ -75,7 +77,12 @@ public class Graph {
         return v;
     }
 
-    public boolean markDisabledEdges(Point adj, Point next) {
+    public void markVisited(Point p) {
+        long key = genKey(p);
+        visited.add(key);
+    }
+
+    public boolean trackMove(Point adj, Point next) {
         return markDisabled(adj, next) && markDisabled(next, adj);
     }
 
@@ -97,7 +104,17 @@ public class Graph {
 
     }
 
-    public EdgeEntry findMove(Point from, Gate gate) {
+    private Set<Long> prepareKeepers(List<Point> keepers) {
+        Set<Long> keys = new HashSet<>(4);
+        for(Point keeper : keepers) {
+            keys.add(genKey(keeper));
+        }
+        return keys;
+    }
+
+    public EdgeEntry findMove(Point from, Gate gate, List<Point> keepers) {
+        Set<Long> keepersKeys = prepareKeepers(keepers);
+
         Vertex fromV = key2Vertex.get(genKey(from));
 
         PriorityQueue<EdgeEntry> priorityQueue = new PriorityQueue<>();
@@ -130,8 +147,15 @@ public class Graph {
                     continue;
 
                 long key = genKey(edge.next);
+                if (keepersKeys.contains(key))
+                    continue;
+
                 EdgeEntry currentEntry = bestWays.get(key);
-                int edgeWeightNew = current.weight + edge.weight;
+                int tmpWeight = edge.weight;
+                if(visited.contains(edge.next))
+                    tmpWeight = 0;
+                int edgeWeightNew = current.weight + tmpWeight;
+
                 if (currentEntry == null) {
                     EdgeEntry entry = new EdgeEntry();
                     entry.weight = edgeWeightNew;
@@ -155,7 +179,6 @@ public class Graph {
             }
 
             if (enabled && counter >= MAX_ITER) {
-//                System.out.println("max");
                 return maybeBest;
             }
 
