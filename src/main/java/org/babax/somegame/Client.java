@@ -9,6 +9,7 @@ import java.util.Scanner;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
+import static org.babax.somegame.Util.getInt;
 
 public class Client {
     private final String address;
@@ -119,7 +120,7 @@ public class Client {
     }
 
     private void setArgument(String[] args) {
-        engine.move(args[1], args[2]);
+        engine.handleEnemyMove(new Point(getInt(args[1]), getInt(args[2])));
         System.out.println("Player moved to " + args[1] + " " + args[2]);
     }
 

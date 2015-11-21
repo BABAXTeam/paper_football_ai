@@ -2,6 +2,7 @@ package org.babax.somegame;
 
 import org.babax.somegame.models.Field;
 import org.babax.somegame.models.Point;
+import org.babax.somegame.models.Team;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.BlockJUnit4ClassRunner;
@@ -67,11 +68,12 @@ public class EngineTest {
     }
 
     @Test
-    public void testMove() throws Exception {
+    public void testEnemyMove() throws Exception {
         Engine engine = Fixture.dummyEngine();
-        engine.move("1", "2");
-        assertEquals(engine.getPosition().x, 1);
-        assertEquals(engine.getPosition().y, 2);
+        engine.handleEnemyMove(new Point(1, 2));
+        assertEquals(1, engine.getPosition().x);
+        assertEquals(2, engine.getPosition().y);
+        assertEquals(Team.SECOND, engine.getTeam());
     }
 
 }

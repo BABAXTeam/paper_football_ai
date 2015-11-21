@@ -2,13 +2,18 @@ package org.babax.somegame;
 
 import org.babax.somegame.models.Field;
 import org.babax.somegame.models.Point;
+import org.babax.somegame.models.Team;
 
 import java.util.*;
+
+import static org.babax.somegame.Util.getInt;
 
 public class Engine {
 
     private String level;
     private Field field;
+    private Graph graph;
+    private Team team;
 
     private Point position;
 
@@ -25,6 +30,8 @@ public class Engine {
         position.y = getInt(params.get(4));
 
         field.traps = parseTraps(params);
+
+        graph = new Graph(field);
     }
 
     private Set<Point> parseTraps(List<String> params) {
@@ -42,18 +49,9 @@ public class Engine {
         return traps;
     }
 
-    private static int getInt(String str) {
-        return Integer.valueOf(str);
-    }
-
     public Point findNextMove() {
         //TODO: replace stub
         return new Point(0, 0);
-    }
-
-    public void move(String x, String y) {
-        position.x = getInt(x);
-        position.y = getInt(y);
     }
 
     public String getLevel() {
@@ -78,5 +76,16 @@ public class Engine {
 
     public void setPosition(Point position) {
         this.position = position;
+    }
+
+    public void handleEnemyMove(Point to) {
+        if(team == null)
+            team = Team.SECOND;
+        graph.markDisabled(position, to);
+        position = to;
+    }
+
+    public Team getTeam() {
+        return team;
     }
 }
