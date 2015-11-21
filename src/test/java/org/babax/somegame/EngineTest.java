@@ -149,7 +149,7 @@ public class EngineTest {
 
     private String readResource(String name) {
         try {
-            File file = new File(getClass().getClassLoader().getResource("game3").getFile());
+            File file = new File(getClass().getClassLoader().getResource(name).getFile());
             return Files.lines(file.toPath())
                     .reduce(String::concat).get().trim();
         } catch (IOException e) {
@@ -171,4 +171,14 @@ public class EngineTest {
         }
     }
 
+    @Test
+    public void testGameBR() throws InterruptedException {
+        Engine engine = new Engine();
+        engine.init(Arrays.asList(readResource("game_br").split(" ")));
+        System.out.println("Pos:" + engine.getPosition());
+        System.out.println(engine.findNextMove());
+        engine.handleEnemyMove(new Point(14, 30), new Point(18, 42), new Point(14, 46));
+        engine.handleEnemyMove(new Point(15, 29), new Point(18, 42), new Point(14, 46));
+        System.out.println(engine.findNextMove());
+    }
 }

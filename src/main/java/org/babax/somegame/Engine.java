@@ -105,6 +105,9 @@ public class Engine {
         if(team == null)
             team = Team.SECOND;
 
+        if(field.isInField(to) || field.isInField(keeper1) || field.isInField(keeper2))
+            return;
+
         if(team == Team.FIRST) {
             this.keeper2_1.x = keeper1.x;
             this.keeper2_1.y = keeper1.y;

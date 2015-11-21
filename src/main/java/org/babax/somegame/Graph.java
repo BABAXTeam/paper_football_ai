@@ -11,11 +11,10 @@ public class Graph {
 
     public Map<Long, Vertex> key2Vertex;
 
-    public Set<Long> visited;
-
+    public boolean[][] visited;
     public Field field;
 
-    private static int MAX_ITER = 30000;
+    private static int MAX_ITER = 10000;
     private boolean enabled = false;
 
     public Graph(Field field) {
@@ -30,7 +29,7 @@ public class Graph {
     private void initNodes() {
         int capacity = field.width * field.length;
         key2Vertex = new HashMap<>(capacity);
-        visited = new HashSet<>(capacity);
+        visited = new boolean[field.width + 1][field.length + 1];
 
         for (int y = 0; y <= field.length; y++) {
             for (int x = 0; x <= field.width; x++) {
@@ -77,8 +76,7 @@ public class Graph {
     }
 
     public void markVisited(Point p) {
-        long key = genKey(p);
-        visited.add(key);
+        visited[p.x][p.y] = true;
     }
 
     public boolean trackMove(Point adj, Point next) {
@@ -152,7 +150,7 @@ public class Graph {
 
                 EdgeEntry currentEntry = bestWays.get(key);
                 int tmpWeight = edge.weight;
-                if(visited.contains(genKey(edge.next)))
+                if(visited[edge.next.x][edge.next.y])
                     tmpWeight = 0;
 
                 int edgeWeightNew = current.weight + tmpWeight;
@@ -165,12 +163,6 @@ public class Graph {
                     bestWays.put(genKey(entry.adj), entry);
                     priorityQueue.add(entry);
                 } else if (currentEntry.weight > edgeWeightNew) {
-                    priorityQueue.remove(currentEntry);
-                    currentEntry.weight = edgeWeightNew;
-                    currentEntry.adj = key2Vertex.get(key);
-                    currentEntry.parent = current;
-                    priorityQueue.add(currentEntry);
-                } else if (currentEntry.weight == edgeWeightNew) {
                     priorityQueue.remove(currentEntry);
                     currentEntry.weight = edgeWeightNew;
                     currentEntry.adj = key2Vertex.get(key);
