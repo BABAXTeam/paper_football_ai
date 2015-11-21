@@ -2,7 +2,9 @@ package org.babax.somegame;
 
 import org.babax.somegame.models.*;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toSet;
@@ -26,7 +28,7 @@ public class Graph {
         for (int y = 0; y <= field.length; y++) {
             for (int x = 0; x <= field.width; x++) {
                 Vertex v = initVertex(x, y);
-                if(v != Vertex.NONE)
+                if (v != Vertex.NONE)
                     key2Vertex.put(genKey(x, y), v);
             }
         }
@@ -37,7 +39,7 @@ public class Graph {
         v.x = x;
         v.y = y;
 
-        if(field.isTrap(v))
+        if (field.isTrap(v))
             return Vertex.NONE;
 
         v.edges = Stream.of(
@@ -49,16 +51,17 @@ public class Graph {
                 new Point(x + 1, y),
                 new Point(x + 1, y + 1),
                 new Point(x + 1, y - 1)
-        ).filter(point -> field.isInField(point)
-                // не ходим по границам
-                && !((x == point.x && field.isBorder(v) && field.isBorder(point))
-                || (y == point.y && field.isBorder(v) && field.isBorder(point)))
-                // середина поля
-                && !(y == field.length / 2 && point.y == y)
-                && !field.isTrap(point))
+        ).parallel()
+                .filter(point -> field.isInField(point)
+                        // не ходим по границам
+                        && !((x == point.x && field.isBorder(v) && field.isBorder(point))
+                        || (y == point.y && field.isBorder(v) && field.isBorder(point)))
+                        // середина поля
+                        && !(y == field.length / 2 && point.y == y)
+                        && !field.isTrap(point))
                 .map(point -> {
                     Edge edge = new Edge(v, point);
-                    if(!field.isBorder(v) && field.isBorder(point))
+                    if (!field.isBorder(v) && field.isBorder(point))
                         edge.weight = 0;
                     return edge;
                 })
@@ -72,12 +75,14 @@ public class Graph {
 
     private boolean markDisabled(Point adj, Point next) {
         Vertex v = key2Vertex.get(genKey(adj));
-        if(v == null)
+        if (v == null)
             throw new IllegalStateException();
 
-        for(Edge edge : v.getAccepted()) {
+        for (Edge edge : v.edges) {
+            if (edge.disabled)
+                continue;
             Point eNext = edge.next;
-            if(eNext.x == next.x && eNext.y == next.y) {
+            if (eNext.x == next.x && eNext.y == next.y) {
                 edge.disabled = true;
                 return true;
             }
@@ -109,13 +114,13 @@ public class Graph {
             counter++;
 
             int tmpMinLength = lengthDistance(gate, current.adj);
-            if(tmpMinLength < minimalLenght) {
+            if (tmpMinLength < minimalLenght) {
                 minimalLenght = tmpMinLength;
                 maybeBest = current;
             }
 
             for (Edge edge : current.adj.edges) {
-                if(edge.disabled)
+                if (edge.disabled)
                     continue;
 
                 long key = genKey(edge.next);
@@ -143,7 +148,7 @@ public class Graph {
                 return current;
             }
 
-            if(counter >= MAX_ITER) {
+            if (counter >= MAX_ITER) {
                 return maybeBest;
             }
 
@@ -158,9 +163,9 @@ public class Graph {
     }
 
     private int lengthDistance(Gate gate, Vertex v) {
-        if(gate.top.y == 0)
+        if (gate.top.y == 0)
             return v.y;
-        return gate.top.y -v.y;
+        return gate.top.y - v.y;
     }
 
     private long genKey(Point p) {
