@@ -40,4 +40,12 @@ public class GraphTest {
         boolean result = g.findMove(new Point(0, 0), f.gate2);
         assertTrue(result);
     }
+
+    @Test
+    public void testMarkDisabled() throws Exception {
+        Field f = Fixture.getField(5, 4);
+        Graph g = new Graph(f);
+        assertTrue(g.markDisabled(new Point(2, 1), new Point(1, 1)));
+        assertFalse(g.markDisabled(new Point(2, 1), new Point(1, 1)));
+    }
 }

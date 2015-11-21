@@ -44,17 +44,27 @@ public class Graph {
                 new Point(x + 1, y + 1),
                 new Point(x + 1, y - 1)
         ).filter(point -> field.isInField(point)
-                && !((x == point.x && field.isBorder(v) && field.isBorder(point))|| (y == point.y && field.isBorder(v) && field.isBorder(point))))
-/*                .filter(point -> point.x >= 0
-                                && point.y >= 0
-                                && point.x <= field.width
-                                && point.y <= field.length
-                                && !(field.isBorder(x, y) && field.isBorder(point))
-                                && !field.isTrap(point)
-                )*/
+                // не ходим по границам
+                && !((x == point.x && field.isBorder(v) && field.isBorder(point))
+                      || (y == point.y && field.isBorder(v) && field.isBorder(point))))
                 .map(point -> new Edge(v, point))
                 .collect(toSet());
         return v;
+    }
+
+    public boolean markDisabled(Point adj, Point next) {
+        Vertex v = key2Vertex.get(genKey(adj));
+        if(v == null)
+            throw new IllegalStateException();
+
+        for(Edge edge : v.getAccepted()) {
+            Point eNext = edge.next;
+            if(eNext.x == next.x && eNext.y == next.y) {
+                edge.disabled = true;
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean findMove(Point from, Gate gate) {
