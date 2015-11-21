@@ -5,7 +5,6 @@ import org.babax.somegame.models.*;
 import java.util.*;
 import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.partitioningBy;
 import static java.util.stream.Collectors.toSet;
 
 public class Graph {
@@ -73,7 +72,7 @@ public class Graph {
         return false;
     }
 
-    public boolean findMove(Point from, Gate gate) {
+    public EdgeEntry findMove(Point from, Gate gate) {
         Vertex fromV = key2Vertex.get(genKey(from));
 
         PriorityQueue<EdgeEntry> priorityQueue = new PriorityQueue<>();
@@ -89,9 +88,7 @@ public class Graph {
         boolean finished = false;
         while (!finished) {
 
-            System.out.println("NEXT ITER:" + current);
             for (Edge edge : current.adj.getAccepted()) {
-                System.out.println(edge);
                 EdgeEntry currentEntry = bestWays.get(genKey(edge.next));
                 if (currentEntry == null) {
                     EdgeEntry entry = new EdgeEntry();
@@ -111,16 +108,17 @@ public class Graph {
 
             if (gate.isGoal(current.adj)) {
                 current.printPath();
-                return true;
+                return current;
             }
 
             current = priorityQueue.poll();
             if (current == null) {
                 System.out.println("SASAI");
-                return false;
+                return EdgeEntry.EMPTY;
             }
         }
-        return false;
+
+        return EdgeEntry.EMPTY;
     }
 
     private long genKey(Point p) {

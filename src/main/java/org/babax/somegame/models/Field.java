@@ -68,4 +68,15 @@ public class Field {
         result = 31 * result + (gate2 != null ? gate2.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Field{" +
+                "width=" + width +
+                ", length=" + length +
+                ", traps=" + traps +
+                ", gate1=" + gate1 +
+                ", gate2=" + gate2 +
+                '}';
+    }
 }

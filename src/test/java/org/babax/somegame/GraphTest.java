@@ -1,9 +1,6 @@
 package org.babax.somegame;
 
-import org.babax.somegame.models.Field;
-import org.babax.somegame.models.Point;
-import org.babax.somegame.models.Team;
-import org.babax.somegame.models.Vertex;
+import org.babax.somegame.models.*;
 import org.junit.Test;
 
 import java.util.HashSet;
@@ -46,18 +43,29 @@ public class GraphTest {
         int count = 0;
         for(Vertex v : g.key2Vertex.values()) {
             count += v.getAccepted().size();
-            v.getAccepted().forEach(System.out::println);
         }
         return count;
     }
 
     @Test
-    public void testFindSome() throws Exception {
+    public void testFindMoveSimple() throws Exception {
         Field f = Fixture.getField(5, 4);
         Graph g = new Graph(f);
-        System.out.println(f.gate2);
-        boolean result = g.findMove(new Point(0, 0), f.gate2);
-        assertTrue(result);
+        EdgeEntry way = g.findMove(new Point(0, 0), f.gate2);
+        assertNotEquals(EdgeEntry.EMPTY, way);
+        Point result = way.getFirst();
+        assertEquals(1, result.x);
+        assertEquals(1, result.y);
+    }
+
+    @Test
+    public void testFinalMove() throws Exception {
+        Field f = Fixture.getField(5, 4);
+        Graph g = new Graph(f);
+        EdgeEntry way = g.findMove(new Point(3, 3), f.gate2);
+        assertNotEquals(EdgeEntry.EMPTY, way);
+        Point result = way.getFirst();
+        assertTrue(f.gate2.isGoal(result));
     }
 
     @Test

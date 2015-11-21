@@ -54,17 +54,24 @@ public class EngineTest {
         ));
 
         assertEquals(engine.getField().traps.size(), 1);
-        Point expectedTrapPoint = engine.getField().traps.iterator().next();
-        assertEquals(expectedTrapPoint.x, 3);
-        assertEquals(expectedTrapPoint.y, 3);
+        Point actualTrapPoint = engine.getField().traps.iterator().next();
+        assertEquals(3, actualTrapPoint.x);
+        assertEquals(3, actualTrapPoint.y);
     }
 
     @Test
     public void testFindNextMove() throws Exception {
         Engine engine = new Engine();
+        engine.init(Arrays.asList(
+                "L1",
+                "5", "4",
+                "0", "0",
+                "0"
+        ));
+        System.out.println(engine.getField());
         Point nextMove = engine.findNextMove();
-        assertEquals(nextMove.x, 0);
-        assertEquals(nextMove.y, 0);
+        assertEquals(1, nextMove.x);
+        assertEquals(1, nextMove.y);
     }
 
     @Test

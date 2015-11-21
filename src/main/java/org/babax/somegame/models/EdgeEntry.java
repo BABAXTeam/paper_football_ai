@@ -29,4 +29,12 @@ public class EdgeEntry implements Comparable<EdgeEntry> {
             curr = curr.parent;
         }
     }
+
+    public Point getFirst() {
+        EdgeEntry curr = this;
+        while(curr.parent != EdgeEntry.EMPTY && curr.parent.parent != EdgeEntry.EMPTY) {
+            curr = curr.parent;
+        }
+        return curr.adj;
+    }
 }

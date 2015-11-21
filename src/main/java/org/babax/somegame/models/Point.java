@@ -2,6 +2,8 @@ package org.babax.somegame.models;
 
 public class Point {
 
+    public static Point NONE = new Point(-1, -1);
+
     public int x, y;
 
     public Point(int x, int y) {

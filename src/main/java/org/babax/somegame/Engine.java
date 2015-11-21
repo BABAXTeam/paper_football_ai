@@ -1,6 +1,7 @@
 package org.babax.somegame;
 
 import org.babax.somegame.models.Field;
+import org.babax.somegame.models.Gate;
 import org.babax.somegame.models.Point;
 import org.babax.somegame.models.Team;
 
@@ -49,11 +50,6 @@ public class Engine {
         return traps;
     }
 
-    public Point findNextMove() {
-        //TODO: replace stub
-        return new Point(0, 0);
-    }
-
     public String getLevel() {
         return level;
     }
@@ -87,5 +83,15 @@ public class Engine {
 
     public Team getTeam() {
         return team;
+    }
+
+    public Point findNextMove() {
+        if(team == null)
+            team = Team.FIRST;
+        return graph.findMove(position, getGate()).getFirst();
+    }
+
+    private Gate getGate() {
+        return team == Team.FIRST? field.gate2 : field.gate1;
     }
 }
