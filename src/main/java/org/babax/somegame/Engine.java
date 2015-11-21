@@ -88,7 +88,10 @@ public class Engine {
     public Point findNextMove() {
         if(team == null)
             team = Team.FIRST;
-        return graph.findMove(position, getGate()).getFirst();
+        Point result = graph.findMove(position, getGate()).getFirst();
+        if(result != Point.NONE)
+            graph.markDisabled(position, result);
+        return result;
     }
 
     private Gate getGate() {
