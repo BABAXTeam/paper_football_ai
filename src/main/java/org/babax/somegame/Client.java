@@ -1,6 +1,7 @@
 package org.babax.somegame;
 
 import org.babax.somegame.models.Point;
+import org.babax.somegame.models.Team;
 
 import java.io.*;
 import java.net.Socket;
@@ -141,7 +142,16 @@ public class Client {
         Point point = engine.findNextMove();
         final int x = point.x;
         final int y = point.y;
-        return "" + x + " " + y;
+
+        Point keeper1 , keeper2;
+        if(engine.getTeam() == Team.FIRST) {
+            keeper1 = engine.keeper1_1;
+            keeper2 = engine.keeper1_2;
+        } else {
+            keeper1 = engine.keeper2_1;
+            keeper2 = engine.keeper2_2;
+        }
+        return "" + x + " " + y + " " + keeper1.x + " " + keeper1.y + " " + keeper2.x + " " + keeper2.y;
     }
 
     protected void sendMsg(final String message) throws IOException {

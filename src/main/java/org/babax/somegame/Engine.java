@@ -18,7 +18,7 @@ public class Engine {
 
     private Point position;
 
-    private Point keeper1_1, keeper1_2, keeper2_1, keeper2_2;
+    public Point keeper1_1, keeper1_2, keeper2_1, keeper2_2;
 
     public void init(List<String> params) {
         level = params.get(0);
