@@ -112,6 +112,8 @@ public class Graph {
     }
 
     public EdgeEntry findMove(Point from, Gate gate, List<Point> keepers) {
+        Random random = new Random(978654);
+
         Set<Long> keepersKeys = prepareKeepers(keepers);
 
         Vertex fromV = key2Vertex.get(genKey(from));
@@ -168,12 +170,16 @@ public class Graph {
                     currentEntry.adj = key2Vertex.get(key);
                     currentEntry.parent = current;
                     priorityQueue.add(currentEntry);
+                } else if (currentEntry.weight == edgeWeightNew && random.nextBoolean()) {
+                    priorityQueue.remove(currentEntry);
+                    currentEntry.weight = edgeWeightNew;
+                    currentEntry.adj = key2Vertex.get(key);
+                    currentEntry.parent = current;
+                    priorityQueue.add(currentEntry);
                 }
             }
 
             if (gate.isGoal(current.adj)) {
-                //current.printPath();
-                //System.out.println(counter);
                 return current;
             }
 

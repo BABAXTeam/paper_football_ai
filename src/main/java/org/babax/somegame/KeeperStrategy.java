@@ -9,4 +9,6 @@ public class KeeperStrategy {
     public KeeperStrategy(Field field) {
         this.field = field;
     }
+
+
 }

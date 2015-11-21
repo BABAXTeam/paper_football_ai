@@ -105,12 +105,15 @@ public class Engine {
             team = Team.SECOND;
 
         if(team == Team.FIRST) {
-            this.keeper2_1 = keeper1;
-            this.keeper2_2 = keeper2;
+            this.keeper2_1.x = keeper1.x;
+            this.keeper2_1.y = keeper1.y;
+            this.keeper2_2.x = keeper2.x;
+            this.keeper2_2.y = keeper2.y;
         } else {
-            this.keeper1_1 = keeper1;
-            this.keeper1_2 = keeper2;
-
+            this.keeper1_1.x = keeper1.x;
+            this.keeper1_1.y = keeper1.y;
+            this.keeper1_2.x = keeper2.x;
+            this.keeper1_2.y = keeper2.y;
         }
         graph.trackMove(position, to);
         position = to;
